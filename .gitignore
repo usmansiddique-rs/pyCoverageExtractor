@@ -1,3 +1,6 @@
+.pyvenv
 combined_coverage
+
 exclusion_generator.py
-.py*
+src/__pycache__
+*.log

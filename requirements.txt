@@ -1,0 +1,6 @@
+# r/w data frames
+pandas
+# work with html files
+lxml
+html5lib
+# work with excel based files
