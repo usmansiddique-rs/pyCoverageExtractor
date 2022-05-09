@@ -8,4 +8,4 @@ pip list
 echo -e "\n"
 python3 -m pip install -r requirements.txt
 echo -e "\n"
-pip freeze
+pip list
