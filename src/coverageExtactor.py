@@ -44,7 +44,7 @@ class coverageExtractor:
     
     
     # print and save data to Excel sheet
-    def writeDFtoXlsx(self):
+    def writeCovtoXlsx(self):
         # create file name
         self.xlsxFileName = 'CovRpt_' + self.htmlFileName.replace('.html','.xlsx')
         # create empty file
