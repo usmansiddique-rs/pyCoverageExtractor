@@ -4,9 +4,6 @@ from csv import writer
 import pandas as pd
 import logging
 import enum
-import os
-import re
-os.system('clear')
 
 # ===========================================================================================
 # ======================================= Begin Class =======================================
@@ -89,8 +86,24 @@ class coverageExtractor:
         writer = pd.ExcelWriter(fileName,engine='xlsxwriter')
         writer.save()
         excelFileData = pd.ExcelWriter(fileName,mode='a',if_sheet_exists='replace',engine='openpyxl')
-        self._isolatedDfObj.to_excel(excelFileData,sheet_name='Sheet 1',index=False)
+        self._isolatedDfObj.to_excel(excelFileData,index=False)
         excelFileData.save()
+    
+    
+    def writeTabletoCsv(self):
+        fileName = 'updated_' + self.htmlFileName.replace('.html','.csv')
+        self._isolatedDfObj.to_csv(fileName,index=False)
+    
+    
+    def writeTabletoHtml(self):
+        fileName = 'updated_' + self.htmlFileName
+        self._isolatedDfObj.to_html(fileName)
+    
+    
+    def writeTabletoJson(self):
+        fileName = 'updated_' + self.htmlFileName.replace('.html','.json')
+        self._isolatedDfObj.to_json(fileName,orient='index',indent=4)
+
 
 
 # ===========================================================================================
