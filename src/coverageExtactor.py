@@ -1,8 +1,9 @@
-from csv import writer
-import enum
+from fileinput import filename
 from tabulate import tabulate
+from csv import writer
 import pandas as pd
 import logging
+import enum
 import os
 import re
 os.system('clear')
@@ -79,8 +80,17 @@ class coverageExtractor:
                 # tempRow = table.loc[table[columnName].isin(keyword)]
                 # append tempRow to new data frame
                 self._isolatedDfObj = self._isolatedDfObj.append(tempRow)
-                # print('/////////////////////////////////////////////////////////////////////////////')
-                # self.displayDF(self._isolatedDfObj)
+    
+    
+    def writeTabletoXlsx(self):
+        # set filename
+        fileName = 'updated_' + self.htmlFileName.replace('.html','.xlsx')
+        # save table to excel
+        writer = pd.ExcelWriter(fileName,engine='xlsxwriter')
+        writer.save()
+        excelFileData = pd.ExcelWriter(fileName,mode='a',if_sheet_exists='replace',engine='openpyxl')
+        self._isolatedDfObj.to_excel(excelFileData,sheet_name='Sheet 1',index=False)
+        excelFileData.save()
 
 
 # ===========================================================================================
