@@ -1,6 +1,16 @@
 # r/w data frames
 pandas
+# display tables
+tabulate
 # work with html files
 lxml
 html5lib
 # work with excel based files
+openpyxl
+xlsxwriter
+
+
+# ===== packages not present in semifive
+# tabulate
+# html5lib
+# xlsxwriter
