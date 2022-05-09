@@ -1,3 +1,4 @@
+from csv import writer
 import enum
 from tabulate import tabulate
 import pandas as pd
@@ -50,17 +51,21 @@ class coverageExtractor:
     # print and save data to Excel sheet
     def writeDFtoXlsx(self):
         # create file name
-        self.xlsxFileName = self.htmlFileName.replace('.html','.xlsx')
+        self.xlsxFileName = 'CovRpt_' + self.htmlFileName.replace('.html','.xlsx')
+        # create empty file
+        writer = pd.ExcelWriter(self.xlsxFileName,engine='xlsxwriter')
+        writer.save()
         for index, item in enumerate(self._covTablesDF):
-            tempSheetName = 'Table_' + str(index)
             tempTable = pd.DataFrame(item)
             # writing to excel
-            excelFileData = pd.ExcelWriter(self.xlsxFileName,mode='w',if_sheet_exists='replace')
+            # excelFileData = pd.ExcelWriter(self.xlsxFileName,mode='a',if_sheet_exists='new')
+            excelFileData = pd.ExcelWriter(self.xlsxFileName,mode='a',if_sheet_exists='replace',engine='openpyxl')
             # write dataframe to excel
-            tempTable.to_excel(excelFileData)
+            tempSheetName = 'Cov Table ' + str(index)
+            tempTable.to_excel(excelFileData,sheet_name=tempSheetName,index=False)
             # save to excel
             excelFileData.save()
-            logging.info('Added {} as Sheet in {}'.format(tempSheetName,self.xlsxFileName))
+            logging.info('Added Table "{}" as Sheet "{}" in doc "{}"'.format(index,tempSheetName,self.xlsxFileName))
     
     
     
