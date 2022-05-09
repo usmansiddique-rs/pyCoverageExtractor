@@ -9,9 +9,6 @@ DIR_SRC				:= $(PRJ_DIR)/src
 # ------------------------------ add folder results file path here
 
 # ------------------------------------------ VARIABLES
-
-
-# ------------------------------------------ TARGETS
 # SHELL       := /bin/bash
 
 # python script flags
@@ -27,6 +24,8 @@ JSON		= 0
 
 VERBOSE		= 0
 DEBUG		= 0
+
+# ------------------------------------------ TARGETS
 
 setupvenv:
 	clear
@@ -57,24 +56,36 @@ cleanvenv:
 
 cleanxlsx:
 	@ echo -------------------------- Deleting all XLSX files -------------------------
-	@ echo " "
 	@ rm -rf *.xlsx
+	@ echo ------------------------------------ DONE ----------------------------------
+
+cleancsv:
+	@ echo -------------------------- Deleting all CSV files --------------------------
+	@ rm -rf *.csv
+	@ echo ------------------------------------ DONE ----------------------------------
+
+cleanhtml:
+	@ echo -------------------------- Deleting all HTML files --------------------------
+	@ rm -rf *.html
+	@ echo ------------------------------------ DONE ----------------------------------
+
+cleanjson:
+	@ echo -------------------------- Deleting all json files --------------------------
+	@ rm -rf *.json
 	@ echo ------------------------------------ DONE ----------------------------------
 
 cleanlogs:
 	@ echo -------------------------- Deleting all log files --------------------------
-	@ echo " "
 	@ rm -rf *.log
 	@ echo ------------------------------------ DONE ----------------------------------
 
-cleandumpfiles: cleanxlsx cleanlogs
+cleandumpfiles: cleanxlsx cleancsv cleanhtml cleanjson cleanlogs
 
 deepclean:
 	clear
 	@ echo ------------------------- Deep Cleaning Environment ------------------------
 	@ echo " "
 	@ make cleanvenv 
-	@ make cleanxlsx
-	@ make cleanlogs
+	@ make cleandumpfiles
 	@ echo ------------------------------------ DONE ----------------------------------
 	@ echo " "
