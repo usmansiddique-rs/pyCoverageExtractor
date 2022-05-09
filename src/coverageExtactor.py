@@ -1,3 +1,4 @@
+import enum
 from tabulate import tabulate
 import pandas as pd
 import logging
@@ -23,6 +24,7 @@ class coverageExtractor:
         # public vars
         self.htmlFilePath = ''
         self.htmlFileName = ''
+        self.xlsxFileName = ''
         # protected vars
         self._covTablesDF = ''
         # private vars
@@ -43,6 +45,26 @@ class coverageExtractor:
     # print a table from excel or html file
     def displayDF(self,dataFrame):
         print(tabulate(dataFrame,headers='keys',tablefmt='github'))
+    
+    
+    # print and save data to Excel sheet
+    def writeDFtoXlsx(self):
+        # create file name
+        self.xlsxFileName = self.htmlFileName.replace('.html','.xlsx')
+        for index, item in enumerate(self._covTablesDF):
+            tempSheetName = 'Table_' + str(index)
+            tempTable = pd.DataFrame(item)
+            # writing to excel
+            excelFileData = pd.ExcelWriter(self.xlsxFileName,mode='w',if_sheet_exists='replace')
+            # write dataframe to excel
+            tempTable.to_excel(excelFileData)
+            # save to excel
+            excelFileData.save()
+            logging.info('Added {} as Sheet in {}'.format(tempSheetName,self.xlsxFileName))
+    
+    
+    
+
 
 
 # ===========================================================================================
