@@ -26,6 +26,8 @@ VERBOSE		= 0
 DEBUG		= 0
 
 # ------------------------------------------ TARGETS
+default: help
+
 
 setupvenv:
 	clear
@@ -88,4 +90,27 @@ deepclean:
 	@ make cleanvenv 
 	@ make cleandumpfiles
 	@ echo ------------------------------------ DONE ----------------------------------
+	@ echo " "
+
+help:
+	clear
+	@ echo " "
+	@ echo ---------------------------- Targets in Makefile ---------------------------
+	@ echo ----------------------------------------------------------------------------
+	@ echo " "
+	@ echo " setupvenv:		create a virtual environemnt with all necessary dependencies"
+	@ echo " readcov:		generate a coverage report"
+	@ echo " "
+	@ echo " cleanvenv:		remove the virtual env"
+	@ echo " cleanxlsx:		remove all .xlsx files"
+	@ echo " cleancsv:		remove all .csv files"
+	@ echo " cleanhtml:		remove all .html files"
+	@ echo " cleanjson:		remove all .json files"
+	@ echo " cleanlogs:		remove all .log files"
+	@ echo " cleandumpfiles:	runs targets cleanxlsx cleancsv cleanhtml cleanjson cleanlogs"
+	@ echo " "
+	@ echo " deepclean:		delete everything (cleandumpfiles + cleanvenv)"
+	@ echo " "
+	@ echo " help:			humble people ask for help :)"
+	@ echo ----------------------------------------------------------------------------
 	@ echo " "
