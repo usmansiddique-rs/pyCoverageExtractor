@@ -7,9 +7,6 @@ os.system('clear')
 
 
 def main():
-    # setup logging
-    logging.basicConfig(level=logging.DEBUG, filename='coverageExtractor.log',
-                        format='%(asctime)s | %(filename)s | %(funcName)s | %(levelname)s | %(lineno)d | %(message)s')
     # setup arguments
     parser = argparse.ArgumentParser(prog='coverage_extractor',
                                     usage='%(prog)s [options] path',
