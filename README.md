@@ -24,4 +24,5 @@ To learn more about what are virtual environemnts click [here](https://realpytho
     JSON=1/0 \              # Generate extracted values as .json
     VERBOSE=1/0 \           # Set/Unset verbosity mode        
     DEBUG=1/0               # Set/Unset debugging mode
-    ``` 
+    ```
+-   To clean all logs and dump files: `make cleandumpfiles`
