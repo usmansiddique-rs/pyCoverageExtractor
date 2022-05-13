@@ -46,7 +46,7 @@ def main():
     # read tables from html file
     covext.readHTML()
     # display tables read from coverage report as prompt
-    if myargs.debug:
+    if myargs.verbose:
         for i in range(len(covext._covTablesDF)):
             print('================================= Coverage Table [{:2d}] ================================='.format(i))
             covext.displayDF(covext._covTablesDF[i])
@@ -55,9 +55,14 @@ def main():
     # print original coverage report as excel doc
     if myargs.print_cov:
         covext.writeCovtoXlsx()
-    # find signals with specific keyword
+    # find specific signals via col name and values and save them in df
     if myargs.col_name and myargs.keyword:
         covext.readCoverageTable(columnName=myargs.col_name,keyword=myargs.keyword)
+        # find the signal hierarchical path 
+        covext.getSignalPath()
+        # modify the isolated signal table
+        covext.addColCovTable()
+        # display the extracted signal table
         if myargs.debug:
             print('\nPrinting isolated rows from table\n')
             covext.displayDF(covext._isolatedDfObj)
