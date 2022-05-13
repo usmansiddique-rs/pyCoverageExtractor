@@ -20,6 +20,8 @@ class coverageExtractor:
         # protected vars
         self._covTablesDF = str()
         self._isolatedDfObj = pd.DataFrame
+        self._updatePath = str()
+        self._signalPath = str()
         # private vars
     
     
@@ -80,11 +82,23 @@ class coverageExtractor:
                 self._isolatedDfObj = self._isolatedDfObj.append(tempRow)
     
     
+    def getSignalPath(self):
+        # print(self._covTablesDF[1])
+        # get path name from cov table 1
+        self._signalPath = self._covTablesDF[1].loc[0]['NAME']
+        print('Current Signal Path: ',self._signalPath)
+        logging.info('Current Signal Path: {}'.format(self._signalPath))
+        # self._updatePath = input('Update Signal Path (Press Y/N): ')
+        # if self._updatePath is 'y' or self._updatePath is 'Y':
+        #     self._signalPath = input('New Signal Path: ')
+        #     logging.info('Updated Signal Path: {}'.format(self._signalPath))
+    
+    
     def addColCovTable(self):
         # insert col 0
         self._isolatedDfObj.insert(0,"IP","")
         # insert col 1
-        self._isolatedDfObj.insert(1,"Signal Path","")
+        self._isolatedDfObj.insert(1,"Signal Path",self._signalPath)
         # rename col 2
         self._isolatedDfObj.rename(columns={"Name":"Signal Name"},inplace=True)
         # insert col 3
