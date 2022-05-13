@@ -1,4 +1,5 @@
 from fileinput import filename
+from numpy import NaN
 from tabulate import tabulate
 from csv import writer
 import pandas as pd
@@ -77,6 +78,29 @@ class coverageExtractor:
                 # tempRow = table.loc[table[columnName].isin(keyword)]
                 # append tempRow to new data frame
                 self._isolatedDfObj = self._isolatedDfObj.append(tempRow)
+    
+    
+    def addColCovTable(self):
+        # insert col 0
+        self._isolatedDfObj.insert(0,"IP","")
+        # insert col 1
+        self._isolatedDfObj.insert(1,"Signal Path","")
+        # rename col 2
+        self._isolatedDfObj.rename(columns={"Name":"Signal Name"},inplace=True)
+        # insert col 3
+        self._isolatedDfObj.insert(3,"Bits Index Not Covered","")
+        # insert col 9
+        self._isolatedDfObj["Should be Excluded (Y/N)"] = ""
+        # insert col 10
+        self._isolatedDfObj["Test Name"] = ""
+        # insert col 11
+        self._isolatedDfObj["Test Description"] = ""
+        # insert col 12
+        self._isolatedDfObj["Reason for Exclusion"] = ""
+        # insert col 13
+        self._isolatedDfObj["Reference"] = ""
+        # insert col 14
+        self._isolatedDfObj["Comments"] = ""
     
     
     def writeTabletoXlsx(self):
