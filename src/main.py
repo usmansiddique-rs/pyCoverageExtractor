@@ -1,4 +1,4 @@
-from numpy import cov
+# from numpy import cov
 import coverageExtactor
 import argparse
 import logging
@@ -29,6 +29,8 @@ def main():
                         type=int,default=0,metavar='',required=False,nargs='?',help='print table as HTML doc')
     parser.add_argument('-json',
                         type=int,default=0,metavar='',required=False,nargs='?',help='print table as JSON doc')
+    parser.add_argument('-text',
+                        type=int,default=0,metavar='',required=False,nargs='?',help='print table as TXT doc')
     parser.add_argument('-v','--verbose',
                         type=int,default=0,metavar='',required=False,nargs='?',help='print verbose')
     parser.add_argument('-d','--debug',
@@ -78,6 +80,10 @@ def main():
         # print isolated signal table as json
         if myargs.json:
             covext.writeTabletoJson()
+        # print isolated signal table as txt
+        if myargs.text:
+            # possible formats: github, presto, 
+            covext.writeTabletoTxt(tbfmt='presto')
 
 
 if __name__ == '__main__':
