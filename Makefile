@@ -21,6 +21,7 @@ EXCEL		= 0
 CSV			= 0
 HTML		= 1
 JSON		= 0
+TEXT		= 1
 
 VERBOSE		= 0
 DEBUG		= 0
@@ -45,7 +46,7 @@ readcov:
 	-rhtml $(RHTML) \
 	--print_cov $(PRINTCOV) \
 	--col_name $(COLNAME) --keyword $(KEYWORD) \
-	-excel $(EXCEL) -csv $(CSV) -html $(HTML) -json $(JSON) \
+	-excel $(EXCEL) -csv $(CSV) -html $(HTML) -json $(JSON) -text $(TEXT) \
 	-d $(DEBUG) -v $(VERBOSE)
 	@ echo ------------------------------------ DONE ----------------------------------
 	@ echo " "
@@ -76,12 +77,17 @@ cleanjson:
 	@ rm -rf *.json
 	@ echo ------------------------------------ DONE ----------------------------------
 
+cleantxt:
+	@ echo -------------------------- Deleting all json files --------------------------
+	@ rm -rf *.txt
+	@ echo ------------------------------------ DONE ----------------------------------
+
 cleanlogs:
 	@ echo -------------------------- Deleting all log files --------------------------
 	@ rm -rf *.log
 	@ echo ------------------------------------ DONE ----------------------------------
 
-cleandumpfiles: cleanxlsx cleancsv cleanhtml cleanjson cleanlogs
+cleandumpfiles: cleanxlsx cleancsv cleanhtml cleanjson cleanlogs cleantxt
 
 deepclean:
 	clear
@@ -106,6 +112,7 @@ help:
 	@ echo " cleancsv:		remove all .csv files"
 	@ echo " cleanhtml:		remove all .html files"
 	@ echo " cleanjson:		remove all .json files"
+	@ echo " cleantxt:		remove all .txt files"
 	@ echo " cleanlogs:		remove all .log files"
 	@ echo " cleandumpfiles:	runs targets cleanxlsx cleancsv cleanhtml cleanjson cleanlogs"
 	@ echo " "
