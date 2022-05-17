@@ -1,5 +1,3 @@
-from fileinput import filename
-from numpy import NaN
 from tabulate import tabulate
 from csv import writer
 import pandas as pd
@@ -86,7 +84,6 @@ class coverageExtractor:
         # print(self._covTablesDF[1])
         # get path name from cov table 1
         self._signalPath = self._covTablesDF[1].loc[0]['NAME']
-        print('Current Signal Path: ',self._signalPath)
         logging.info('Current Signal Path: {}'.format(self._signalPath))
         # self._updatePath = input('Update Signal Path (Press Y/N): ')
         # if self._updatePath is 'y' or self._updatePath is 'Y':
@@ -141,8 +138,13 @@ class coverageExtractor:
     def writeTabletoJson(self):
         fileName = 'updated_' + self.htmlFileName.replace('.html','.json')
         self._isolatedDfObj.to_json(fileName,orient='index',indent=4)
-
-
+    
+    
+    def writeTabletoTxt(self,tbfmt):
+        fileName = 'updated_' + self.htmlFileName.replace('.html','.txt')
+        myTable = tabulate(self._isolatedDfObj,headers='keys',tablefmt=tbfmt,colalign="right")
+        with open(fileName,'w') as f:
+            f.write(myTable)
 
 # ===========================================================================================
 # ======================================== End Class ========================================
