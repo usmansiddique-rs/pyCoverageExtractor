@@ -22,6 +22,7 @@ To learn more about what are virtual environemnts click [here](https://realpytho
     CSV=1/0 \               # Generate extracted values as .csv
     HTML=1/0 \              # Generate extracted values as .html (Default output)
     JSON=1/0 \              # Generate extracted values as .json
+    TEXT=1/0 \              # Generate extracted values as .txt
     VERBOSE=1/0 \           # Set/Unset verbosity mode        
     DEBUG=1/0               # Set/Unset debugging mode
     ```
