@@ -54,7 +54,7 @@ readcov:
 cleanvenv:
 	@ echo ------------------- Deleting Python Virtual Environment/s ------------------
 	@ echo " "
-	@ rm -rf .pyvenv
+	@ rm -rf .py* .venv*
 	@ echo ------------------------------------ DONE ----------------------------------
 
 cleanxlsx:
@@ -84,7 +84,7 @@ cleantxt:
 
 cleanlogs:
 	@ echo -------------------------- Deleting all log files --------------------------
-	@ rm -rf *.log
+	@ rm -rf *.log !(requirements.txt)
 	@ echo ------------------------------------ DONE ----------------------------------
 
 cleandumpfiles: cleanxlsx cleancsv cleanhtml cleanjson cleanlogs cleantxt
