@@ -3,7 +3,7 @@ import coverageExtactor
 import argparse
 import logging
 import os
-os.system('clear')
+# os.system('clear')
 
 
 def main():
@@ -50,13 +50,16 @@ def main():
     # display tables read from coverage report as prompt
     if myargs.verbose:
         for i in range(len(covext._covTablesDF)):
-            print('================================= Coverage Table [{:2d}] ================================='.format(i))
+            print('================================== Coverage Table [{:2d}] ==================================='.format(i))
             covext.displayDF(covext._covTablesDF[i])
             print('==========================================================================================')
             print('\n')
     # print original coverage report as excel doc
-    if myargs.print_cov:
+    if myargs.print_cov and myargs.excel:
         covext.writeCovtoXlsx()
+    # print original coverage report as txt doc
+    if myargs.print_cov and myargs.csv:
+        covext.writeCovtoTxt()
     # find specific signals via col name and values and save them in df
     if myargs.col_name and myargs.keyword:
         covext.readCoverageTable(columnName=myargs.col_name,keyword=myargs.keyword)
