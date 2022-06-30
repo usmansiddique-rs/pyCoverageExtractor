@@ -83,6 +83,7 @@ class coverageExtractor:
             # save to txt
             tempTable = pd.DataFrame(item)
             tempTable.to_csv(tempFilePath,index=False,header=True,sep=' ',mode='w')
+            logging.info('Added Table "{}" to txt doc "{}"'.format(index,tempFileName))
     
     
     def readCoverageTable(self,columnName,keyword):
@@ -104,14 +105,9 @@ class coverageExtractor:
     
     
     def getSignalPath(self):
-        # print(self._covTablesDF[1])
         # get path name from cov table 1
         self._signalPath = self._covTablesDF[1].loc[0]['NAME']
         logging.info('Current Signal Path: {}'.format(self._signalPath))
-        # self._updatePath = input('Update Signal Path (Press Y/N): ')
-        # if self._updatePath is 'y' or self._updatePath is 'Y':
-        #     self._signalPath = input('New Signal Path: ')
-        #     logging.info('Updated Signal Path: {}'.format(self._signalPath))
     
     
     def addColCovTable(self):
