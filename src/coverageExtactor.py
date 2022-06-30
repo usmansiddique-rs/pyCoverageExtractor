@@ -113,24 +113,34 @@ class coverageExtractor:
     def addColCovTable(self):
         # insert col 0
         self._isolatedDfObj.insert(0,"IP","")
+        logging.info('Added Col "{}" at pos [{}]'.format('IP',0))
         # insert col 1
         self._isolatedDfObj.insert(1,"Signal Path",self._signalPath)
+        logging.info('Added Col "{}" at pos [{}]'.format('Signal Path',1))
         # rename col 2
         self._isolatedDfObj.rename(columns={"Name":"Signal Name"},inplace=True)
+        logging.info('Rename Col "{}"  to "{}" at pos [{}]'.format('Name','Signal Name',2))
         # insert col 3
         self._isolatedDfObj.insert(3,"Bits Index Not Covered","")
+        logging.info('Added Col "{}" at pos [{}]'.format('Bits Index Not Covered',3))
         # insert col 9
         self._isolatedDfObj["Should be Excluded (Y/N)"] = ""
+        logging.info('Added Col "{}" at pos [{}]'.format('Should be Excluded (Y/N)',9))
         # insert col 10
         self._isolatedDfObj["Test Name"] = ""
+        logging.info('Added Col "{}" at pos [{}]'.format('Test Name',10))
         # insert col 11
         self._isolatedDfObj["Test Description"] = ""
+        logging.info('Added Col "{}" at pos [{}]'.format('Test Description',11))
         # insert col 12
         self._isolatedDfObj["Reason for Exclusion"] = ""
+        logging.info('Added Col "{}" at pos [{}]'.format('Reason for Exclusion',12))
         # insert col 13
         self._isolatedDfObj["Reference"] = ""
+        logging.info('Added Col "{}" at pos [{}]'.format('Reference',13))
         # insert col 14
         self._isolatedDfObj["Comments"] = ""
+        logging.info('Added Col "{}" at pos [{}]'.format('Comments',14))
     
     
     def writeTabletoXlsx(self):
