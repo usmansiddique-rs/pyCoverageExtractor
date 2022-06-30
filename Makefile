@@ -39,7 +39,6 @@ setupvenv:
 	@ echo " "
 
 readcov:
-	clear
 	@ echo " "
 	@ echo ---------------------------- Coverage Extractor ----------------------------
 	@ python3 $(DIR_SRC)/main.py \
@@ -78,13 +77,13 @@ cleanjson:
 	@ echo ------------------------------------ DONE ----------------------------------
 
 cleantxt:
-	@ echo -------------------------- Deleting all json files --------------------------
-	@ rm -rf *.txt
+	@ echo -------------------------- Deleting all txt files --------------------------
+	@ rm -rf *.txt !(requirements.txt) CovRpt_*
 	@ echo ------------------------------------ DONE ----------------------------------
 
 cleanlogs:
 	@ echo -------------------------- Deleting all log files --------------------------
-	@ rm -rf *.log !(requirements.txt)
+	@ rm -rf *.log
 	@ echo ------------------------------------ DONE ----------------------------------
 
 cleandumpfiles: cleanxlsx cleancsv cleanhtml cleanjson cleanlogs cleantxt
