@@ -1,6 +1,12 @@
-.pyvenv
-combined_coverage
+# virtual environments
+.py*
+.venv*
 
+# folders
+combined_coverage
+CovRpt_*
+
+# files
 exclusion_generator.py
 src/__pycache__
 *.log

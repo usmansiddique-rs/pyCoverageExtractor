@@ -1,5 +1,5 @@
 # ------------------------------------------ PATHS
-PRJ_DIR := $(realpath .)
+PRJ_DIR := $(shell git rev-parse --show-toplevel)
 
 # ------------------------------ add folder docs file path here
 # ------------------------------ add folder scripts file path here
@@ -39,7 +39,6 @@ setupvenv:
 	@ echo " "
 
 readcov:
-	clear
 	@ echo " "
 	@ echo ---------------------------- Coverage Extractor ----------------------------
 	@ python3 $(DIR_SRC)/main.py \
@@ -54,32 +53,32 @@ readcov:
 cleanvenv:
 	@ echo ------------------- Deleting Python Virtual Environment/s ------------------
 	@ echo " "
-	@ rm -rf .pyvenv
+	@ rm -rf .py* .venv*
 	@ echo ------------------------------------ DONE ----------------------------------
 
 cleanxlsx:
 	@ echo -------------------------- Deleting all XLSX files -------------------------
-	@ rm -rf *.xlsx
+	@ rm -rf updated_*.xlsx
 	@ echo ------------------------------------ DONE ----------------------------------
 
 cleancsv:
 	@ echo -------------------------- Deleting all CSV files --------------------------
-	@ rm -rf *.csv
+	@ rm -rf updated_*.csv
 	@ echo ------------------------------------ DONE ----------------------------------
 
 cleanhtml:
 	@ echo -------------------------- Deleting all HTML files --------------------------
-	@ rm -rf *.html
+	@ rm -rf updated_*.html
 	@ echo ------------------------------------ DONE ----------------------------------
 
 cleanjson:
 	@ echo -------------------------- Deleting all json files --------------------------
-	@ rm -rf *.json
+	@ rm -rf updated_*.json
 	@ echo ------------------------------------ DONE ----------------------------------
 
 cleantxt:
-	@ echo -------------------------- Deleting all json files --------------------------
-	@ rm -rf *.txt
+	@ echo -------------------------- Deleting all txt files --------------------------
+	@ rm -rf updated_*.txt CovRpt_*
 	@ echo ------------------------------------ DONE ----------------------------------
 
 cleanlogs:

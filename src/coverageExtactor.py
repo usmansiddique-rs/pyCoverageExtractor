@@ -3,6 +3,8 @@ from csv import writer
 import pandas as pd
 import logging
 import enum
+import json
+import os
 
 # ===========================================================================================
 # ======================================= Begin Class =======================================
@@ -12,9 +14,11 @@ class coverageExtractor:
     # ----------------------------------------------------------------- Variables
     def __init__(self):
         # public vars
-        self.htmlFilePath = str()
-        self.htmlFileName = str()
-        self.xlsxFileName = str()
+        self.htmlFilePath   = str()
+        self.htmlFileName   = str()
+        self.xlsxFileName   = str()
+        self.txtFilePath    = str()
+        self.txtFileName    = str()
         # protected vars
         self._covTablesDF = str()
         self._isolatedDfObj = pd.DataFrame
@@ -34,12 +38,12 @@ class coverageExtractor:
         logging.info('Total tables in HTML doc = ' + str(len(self._covTablesDF)))
         for i in range(len(self._covTablesDF)):
             logging.info('Table "{}" columns: "{}"'.format(i,str(self._covTablesDF[i].columns)))
-            # logging.info('Table[' + str(i) + '] col ' + str(self._covTablesDF[i].columns))
     
     
     # print a table from excel or html file
     def displayDF(self,dataFrame):
-        print(tabulate(dataFrame,headers='keys',tablefmt='github'))
+        # print(tabulate(dataFrame,headers='keys',tablefmt='github'))
+        print(dataFrame)
     
     
     # print and save data to Excel sheet
@@ -62,6 +66,26 @@ class coverageExtractor:
             logging.info('Added Table "{}" as Sheet "{}" in doc "{}"'.format(index,tempSheetName,self.xlsxFileName))
     
     
+    # print and save data to txt doc
+    def writeCovtoTxt(self):
+        #  create folder if it doesnt exist
+        self.txtFilePath = 'CovRpt_' + self.htmlFileName.replace('.html','')
+        if os.path.exists(self.txtFilePath) is False:
+            os.mkdir(self.txtFilePath)
+        # write to file
+        for index, item in enumerate(self._covTablesDF):
+            # create file name
+            tempFileName = 'CovRpt_' + self.htmlFileName.replace('.html','') + 'Table_' + str(index) + '.txt'
+            pwd = os.getcwd()
+            tempFilePath = os.path.join(pwd+'/',self.txtFilePath+'/',tempFileName)
+            # create empty file
+            open(tempFilePath,'w').close()
+            # save to txt
+            tempTable = pd.DataFrame(item)
+            tempTable.to_csv(tempFilePath,index=False,header=True,sep=' ',mode='w')
+            logging.info('Added Table "{}" to txt doc "{}"'.format(index,tempFileName))
+    
+    
     def readCoverageTable(self,columnName,keyword):
         # iterate through all dataframes
         for index, table in enumerate(self._covTablesDF):
@@ -81,37 +105,42 @@ class coverageExtractor:
     
     
     def getSignalPath(self):
-        # print(self._covTablesDF[1])
         # get path name from cov table 1
         self._signalPath = self._covTablesDF[1].loc[0]['NAME']
         logging.info('Current Signal Path: {}'.format(self._signalPath))
-        # self._updatePath = input('Update Signal Path (Press Y/N): ')
-        # if self._updatePath is 'y' or self._updatePath is 'Y':
-        #     self._signalPath = input('New Signal Path: ')
-        #     logging.info('Updated Signal Path: {}'.format(self._signalPath))
     
     
     def addColCovTable(self):
         # insert col 0
         self._isolatedDfObj.insert(0,"IP","")
+        logging.info('Added Col "{}" at pos [{}]'.format('IP',0))
         # insert col 1
         self._isolatedDfObj.insert(1,"Signal Path",self._signalPath)
+        logging.info('Added Col "{}" at pos [{}]'.format('Signal Path',1))
         # rename col 2
         self._isolatedDfObj.rename(columns={"Name":"Signal Name"},inplace=True)
+        logging.info('Rename Col "{}"  to "{}" at pos [{}]'.format('Name','Signal Name',2))
         # insert col 3
         self._isolatedDfObj.insert(3,"Bits Index Not Covered","")
+        logging.info('Added Col "{}" at pos [{}]'.format('Bits Index Not Covered',3))
         # insert col 9
-        self._isolatedDfObj["Should be Excluded (Y/N)"] = ""
+        self._isolatedDfObj["Should be Excluded (Y,N)"] = ""
+        logging.info('Added Col "{}" at pos [{}]'.format('Should be Excluded (Y,N)',9))
         # insert col 10
         self._isolatedDfObj["Test Name"] = ""
+        logging.info('Added Col "{}" at pos [{}]'.format('Test Name',10))
         # insert col 11
         self._isolatedDfObj["Test Description"] = ""
+        logging.info('Added Col "{}" at pos [{}]'.format('Test Description',11))
         # insert col 12
         self._isolatedDfObj["Reason for Exclusion"] = ""
+        logging.info('Added Col "{}" at pos [{}]'.format('Reason for Exclusion',12))
         # insert col 13
         self._isolatedDfObj["Reference"] = ""
+        logging.info('Added Col "{}" at pos [{}]'.format('Reference',13))
         # insert col 14
         self._isolatedDfObj["Comments"] = ""
+        logging.info('Added Col "{}" at pos [{}]'.format('Comments',14))
     
     
     def writeTabletoXlsx(self):
@@ -123,21 +152,26 @@ class coverageExtractor:
         excelFileData = pd.ExcelWriter(fileName,mode='a',if_sheet_exists='replace',engine='openpyxl')
         self._isolatedDfObj.to_excel(excelFileData,index=False)
         excelFileData.save()
+        logging.info('Writing isolated signals to file: {}'.format(fileName))
     
     
     def writeTabletoCsv(self):
         fileName = 'updated_' + self.htmlFileName.replace('.html','.csv')
-        self._isolatedDfObj.to_csv(fileName,index=False)
+        self._isolatedDfObj.to_csv(fileName,index=False,header=True,sep=' ',mode='w')
+        logging.info('Writing isolated signals to file: {}'.format(fileName))
     
     
     def writeTabletoHtml(self):
         fileName = 'updated_' + self.htmlFileName
-        self._isolatedDfObj.to_html(fileName)
+        self._isolatedDfObj.to_html(fileName,index=False,header=True,justify='center')
+        logging.info('Writing isolated signals to file: {}'.format(fileName))
     
     
     def writeTabletoJson(self):
         fileName = 'updated_' + self.htmlFileName.replace('.html','.json')
         self._isolatedDfObj.to_json(fileName,orient='index',indent=4)
+        print(self._isolatedDfObj)
+        logging.info('Writing isolated signals to file: {}'.format(fileName))
     
     
     def writeTabletoTxt(self,tbfmt):
@@ -145,6 +179,7 @@ class coverageExtractor:
         myTable = tabulate(self._isolatedDfObj,headers='keys',tablefmt=tbfmt,colalign="right")
         with open(fileName,'w') as f:
             f.write(myTable)
+        logging.info('Writing isolated signals to file: {}'.format(fileName))
 
 # ===========================================================================================
 # ======================================== End Class ========================================
