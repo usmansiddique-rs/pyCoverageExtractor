@@ -1,5 +1,7 @@
-.pyvenv
+.py*
+.venv*
 combined_coverage
+CovRpt_*
 
 exclusion_generator.py
 src/__pycache__
