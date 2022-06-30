@@ -3,6 +3,7 @@ from csv import writer
 import pandas as pd
 import logging
 import enum
+import json
 import os
 
 # ===========================================================================================
@@ -37,7 +38,6 @@ class coverageExtractor:
         logging.info('Total tables in HTML doc = ' + str(len(self._covTablesDF)))
         for i in range(len(self._covTablesDF)):
             logging.info('Table "{}" columns: "{}"'.format(i,str(self._covTablesDF[i].columns)))
-            # logging.info('Table[' + str(i) + '] col ' + str(self._covTablesDF[i].columns))
     
     
     # print a table from excel or html file
@@ -124,8 +124,8 @@ class coverageExtractor:
         self._isolatedDfObj.insert(3,"Bits Index Not Covered","")
         logging.info('Added Col "{}" at pos [{}]'.format('Bits Index Not Covered',3))
         # insert col 9
-        self._isolatedDfObj["Should be Excluded (Y/N)"] = ""
-        logging.info('Added Col "{}" at pos [{}]'.format('Should be Excluded (Y/N)',9))
+        self._isolatedDfObj["Should be Excluded (Y,N)"] = ""
+        logging.info('Added Col "{}" at pos [{}]'.format('Should be Excluded (Y,N)',9))
         # insert col 10
         self._isolatedDfObj["Test Name"] = ""
         logging.info('Added Col "{}" at pos [{}]'.format('Test Name',10))
@@ -152,21 +152,26 @@ class coverageExtractor:
         excelFileData = pd.ExcelWriter(fileName,mode='a',if_sheet_exists='replace',engine='openpyxl')
         self._isolatedDfObj.to_excel(excelFileData,index=False)
         excelFileData.save()
+        logging.info('Writing isolated signals to file: {}'.format(fileName))
     
     
     def writeTabletoCsv(self):
         fileName = 'updated_' + self.htmlFileName.replace('.html','.csv')
-        self._isolatedDfObj.to_csv(fileName,index=False)
+        self._isolatedDfObj.to_csv(fileName,index=False,header=True,sep=' ',mode='w')
+        logging.info('Writing isolated signals to file: {}'.format(fileName))
     
     
     def writeTabletoHtml(self):
         fileName = 'updated_' + self.htmlFileName
-        self._isolatedDfObj.to_html(fileName)
+        self._isolatedDfObj.to_html(fileName,index=False,header=True,justify='center')
+        logging.info('Writing isolated signals to file: {}'.format(fileName))
     
     
     def writeTabletoJson(self):
         fileName = 'updated_' + self.htmlFileName.replace('.html','.json')
         self._isolatedDfObj.to_json(fileName,orient='index',indent=4)
+        print(self._isolatedDfObj)
+        logging.info('Writing isolated signals to file: {}'.format(fileName))
     
     
     def writeTabletoTxt(self,tbfmt):
@@ -174,6 +179,7 @@ class coverageExtractor:
         myTable = tabulate(self._isolatedDfObj,headers='keys',tablefmt=tbfmt,colalign="right")
         with open(fileName,'w') as f:
             f.write(myTable)
+        logging.info('Writing isolated signals to file: {}'.format(fileName))
 
 # ===========================================================================================
 # ======================================== End Class ========================================
