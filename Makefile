@@ -1,5 +1,5 @@
 # ------------------------------------------ PATHS
-PRJ_DIR := $(realpath .)
+PRJ_DIR := $(shell git rev-parse --show-toplevel)
 
 # ------------------------------ add folder docs file path here
 # ------------------------------ add folder scripts file path here
@@ -58,27 +58,27 @@ cleanvenv:
 
 cleanxlsx:
 	@ echo -------------------------- Deleting all XLSX files -------------------------
-	@ rm -rf *.xlsx
+	@ rm -rf updated_*.xlsx
 	@ echo ------------------------------------ DONE ----------------------------------
 
 cleancsv:
 	@ echo -------------------------- Deleting all CSV files --------------------------
-	@ rm -rf *.csv
+	@ rm -rf updated_*.csv
 	@ echo ------------------------------------ DONE ----------------------------------
 
 cleanhtml:
 	@ echo -------------------------- Deleting all HTML files --------------------------
-	@ rm -rf *.html
+	@ rm -rf updated_*.html
 	@ echo ------------------------------------ DONE ----------------------------------
 
 cleanjson:
 	@ echo -------------------------- Deleting all json files --------------------------
-	@ rm -rf *.json
+	@ rm -rf updated_*.json
 	@ echo ------------------------------------ DONE ----------------------------------
 
 cleantxt:
 	@ echo -------------------------- Deleting all txt files --------------------------
-	@ rm -rf *.txt !(requirements.txt) CovRpt_*
+	@ rm -rf updated_*.txt CovRpt_*
 	@ echo ------------------------------------ DONE ----------------------------------
 
 cleanlogs:
