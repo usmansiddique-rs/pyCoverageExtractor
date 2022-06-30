@@ -3,6 +3,7 @@ from csv import writer
 import pandas as pd
 import logging
 import enum
+import os
 
 # ===========================================================================================
 # ======================================= Begin Class =======================================
@@ -12,9 +13,11 @@ class coverageExtractor:
     # ----------------------------------------------------------------- Variables
     def __init__(self):
         # public vars
-        self.htmlFilePath = str()
-        self.htmlFileName = str()
-        self.xlsxFileName = str()
+        self.htmlFilePath   = str()
+        self.htmlFileName   = str()
+        self.xlsxFileName   = str()
+        self.txtFilePath    = str()
+        self.txtFileName    = str()
         # protected vars
         self._covTablesDF = str()
         self._isolatedDfObj = pd.DataFrame
@@ -39,7 +42,8 @@ class coverageExtractor:
     
     # print a table from excel or html file
     def displayDF(self,dataFrame):
-        print(tabulate(dataFrame,headers='keys',tablefmt='github'))
+        # print(tabulate(dataFrame,headers='keys',tablefmt='github'))
+        print(dataFrame)
     
     
     # print and save data to Excel sheet
@@ -60,6 +64,25 @@ class coverageExtractor:
             # save to excel
             excelFileData.save()
             logging.info('Added Table "{}" as Sheet "{}" in doc "{}"'.format(index,tempSheetName,self.xlsxFileName))
+    
+    
+    # print and save data to txt doc
+    def writeCovtoTxt(self):
+        #  create folder if it doesnt exist
+        self.txtFilePath = 'CovRpt_' + self.htmlFileName.replace('.html','')
+        if os.path.exists(self.txtFilePath) is False:
+            os.mkdir(self.txtFilePath)
+        # write to file
+        for index, item in enumerate(self._covTablesDF):
+            # create file name
+            tempFileName = 'CovRpt_' + self.htmlFileName.replace('.html','') + 'Table_' + str(index) + '.txt'
+            pwd = os.getcwd()
+            tempFilePath = os.path.join(pwd+'/',self.txtFilePath+'/',tempFileName)
+            # create empty file
+            open(tempFilePath,'w').close()
+            # save to txt
+            tempTable = pd.DataFrame(item)
+            tempTable.to_csv(tempFilePath,index=False,header=True,sep=' ',mode='w')
     
     
     def readCoverageTable(self,columnName,keyword):
